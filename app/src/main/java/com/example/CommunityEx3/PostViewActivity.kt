@@ -1,4 +1,4 @@
-package com.example.communityex3
+package com.example.CommunityEx3
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +12,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import models.Post
 import adapters.PostAdapter
+import com.example.communityex3.R
 
 class PostViewActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -22,7 +23,7 @@ class PostViewActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_postview)
 
         mPostRecyclerView = findViewById(R.id.main_recyclerview)
 

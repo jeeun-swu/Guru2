@@ -22,8 +22,24 @@
             android:name=".SignupActivity"
             android:exported="false" />
         <activity
+            android:name=".RegActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FoodAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".NotificationHelper"
+            android:exported="false" />
+        <activity
+            android:name=".FoodItem"
+            android:exported="false" />
+        <activity
+            android:name=".D_DAY_Main"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

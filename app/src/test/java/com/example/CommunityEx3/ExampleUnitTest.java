@@ -1,4 +1,4 @@
-package com.example.communityex3;
+package com.example.CommunityEx3;
 
 import org.junit.Test;
 
