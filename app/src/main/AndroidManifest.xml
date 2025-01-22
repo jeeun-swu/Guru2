@@ -16,7 +16,7 @@
             android:name=".PostActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".PostViewActivity"
             android:exported="false" />
         <activity
             android:name=".SignupActivity"

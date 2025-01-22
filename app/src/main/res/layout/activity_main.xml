@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".PostViewActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/main_recyclerview"

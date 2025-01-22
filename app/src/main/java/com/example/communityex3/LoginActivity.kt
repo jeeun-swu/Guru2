@@ -52,7 +52,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                             startActivity(
                                 Intent(
                                     this@LoginActivity,
-                                    MainActivity::class.java
+                                    PostViewActivity::class.java
                                 )
                             )
                         }

@@ -13,7 +13,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import models.Post
 import adapters.PostAdapter
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class PostViewActivity : AppCompatActivity(), View.OnClickListener {
 
     private val mStore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private lateinit var mAdapter: PostAdapter
