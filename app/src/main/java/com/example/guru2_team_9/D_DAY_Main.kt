@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.guru2_team_9.databinding.ActivityMainBinding
 import java.time.LocalDate
 
-class MainActivity : AppCompatActivity() {
+class D_DAY_Main : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: FoodAdapter

@@ -22,7 +22,7 @@
             android:name=".FoodItem"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".D_DAY_Main"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
