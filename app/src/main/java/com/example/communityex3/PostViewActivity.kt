@@ -22,7 +22,7 @@ class PostViewActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_postview)
 
         mPostRecyclerView = findViewById(R.id.main_recyclerview)
 
