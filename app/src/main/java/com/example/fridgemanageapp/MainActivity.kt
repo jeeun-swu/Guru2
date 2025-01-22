@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    inner class  myDBHelper(context: Context) : SQLiteOpenHelper(context, "groupDB", null, 1 ) {
+    inner class  myDBHelper(context: Context) : SQLiteOpenHelper(context, "fridgeDB", null, 1 ) {
         override fun onCreate(db: SQLiteDatabase?) {
             db!!.execSQL("CREATE TABLE fridgeTBL (fName CHAR(20) PRIMARY KEY, fDate Integer);")
         }
