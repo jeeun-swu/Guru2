@@ -1,66 +1,31 @@
-package models;
+package models
 
-import com.google.firebase.firestore.ServerTimestamp;
+import com.google.firebase.firestore.ServerTimestamp
+import java.util.Date
 
-import java.util.Date;
-
-public class Post {
-
-    private String documentId;
-    private String title;
-    private String contents;
+class Post {
+    var documentId: String? = null
+    @kotlin.jvm.JvmField
+    var title: String? = null
+    var contents: String? = null
 
     @ServerTimestamp
-    private Date date;
+    var date: Date? = null
 
-    public Post() {
+    constructor()
+
+    constructor(documentId: String?, title: String?, contents: String?) {
+        this.documentId = documentId
+        this.title = title
+        this.contents = contents
     }
 
-    public Post(String documentId, String title, String contents) {
-        this.documentId = documentId;
-        this.title = title;
-        this.contents = contents;
-    }
-
-    public String getDocumentId() {
-        return documentId;
-    }
-
-    public void setDocumentId(String documentId) {
-        this.documentId = documentId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContents() {
-        return contents;
-    }
-
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    @Override
-    public String toString() {
+    override fun toString(): String {
         return "Post{" +
                 "documentId='" + documentId + '\'' +
                 ", title='" + title + '\'' +
                 ", contents='" + contents + '\'' +
                 ", date=" + date +
-                '}';
+                '}'
     }
 }

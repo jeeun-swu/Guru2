@@ -1,14 +1,13 @@
-package com.example.communityex3;
+package com.example.communityex3
 
-public class FirebaseId {
-    public static String user = "user";
-    public static String post = "post";
-    public static String documentId = "documentId";
-    public static String Id = "Id";
-    public static String Password = "Password";
+object FirebaseId {
+    var user: String = "user"
+    var post: String = "post"
+    var documentId: String = "documentId"
+    var Id: String = "Id"
+    var Password: String = "Password"
 
-    public static String title = "title";
-    public static String contents = "contents";
-    public static String timestamp = "timestamp";
-
+    var title: String = "title"
+    var contents: String = "contents"
+    var timestamp: String = "timestamp"
 }
