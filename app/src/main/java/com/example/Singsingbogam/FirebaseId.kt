@@ -1,5 +1,6 @@
 package com.example.Singsingbogam
 
+// 파이어베이스에서 사용하는 고유 ID
 object FirebaseId {
     var user: String = "user"
     var post: String = "post"
