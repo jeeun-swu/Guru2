@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "468734860104",
+    "project_id": "my-app-freshmanager",
+    "storage_bucket": "my-app-freshmanager.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:468734860104:android:2f69b7712a850ddc7af17d",
+        "android_client_info": {
+          "package_name": "com.example.communityboardapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFjs9U-yXunGZJP5G8wVMXxxxkHEsN_80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:468734860104:android:7d09d314e5cf2b077af17d",
+        "android_client_info": {
+          "package_name": "com.example.communityex3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFjs9U-yXunGZJP5G8wVMXxxxkHEsN_80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
