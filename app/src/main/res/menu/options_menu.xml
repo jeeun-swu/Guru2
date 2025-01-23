@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_reg"
+        android:title="재료 등록 및 삭제" />
+    <item
+        android:id="@+id/menu_dday"
+        android:title="재료 디데이" />
+    <item
+        android:id="@+id/menu_community"
+        android:title="커뮤니티" />
+</menu>
