@@ -76,9 +76,10 @@ class PostViewActivity : AppCompatActivity(), View.OnClickListener {
                 return true
             }
             R.id.menu_dday -> {
-                // 재료 디데이 (비워 둠)
+                startActivity(Intent(this, DdayListActivity::class.java))
                 return true
             }
+
             R.id.menu_community -> {
                 // PostViewActivity로 이동
                 startActivity(Intent(this, PostViewActivity::class.java))

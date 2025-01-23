@@ -55,7 +55,7 @@ class RegActivity : AppCompatActivity() {
 
     }
 
-    inner class myDBHelper(context: Context) : SQLiteOpenHelper(context, "fridgeDB", null, 1) {
+    class myDBHelper(context: Context) : SQLiteOpenHelper(context, "fridgeDB", null, 1) {
         override fun onCreate(db: SQLiteDatabase?) {
             db!!.execSQL("CREATE TABLE fridgeTBL (fName CHAR(20) PRIMARY KEY, fDate Integer);")
         }
@@ -73,20 +73,24 @@ class RegActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_reg -> {
-                // RegActivity로 이동
                 startActivity(Intent(this, RegActivity::class.java))
                 return true
             }
             R.id.menu_dday -> {
-                // 재료 디데이 (비워 둠)
+                // ★ 수정 포인트 ★
+                startActivity(Intent(this, DdayListActivity::class.java))
                 return true
             }
             R.id.menu_community -> {
-                // PostViewActivity로 이동
                 startActivity(Intent(this, PostViewActivity::class.java))
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
+
+
 }
+
+
+

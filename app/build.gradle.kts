@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.Singsingbogam"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -45,6 +45,10 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
     implementation(libs.core.ktx)
+    implementation(libs.room.common)
+    implementation(libs.room.common.jvm)
+    implementation(libs.work.runtime.ktx)
+    implementation(libs.espresso.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
