@@ -1,5 +1,5 @@
 package com.example.Singsingbogam
-
+//
 object FirebaseId {
     var user: String = "user"
     var post: String = "post"
