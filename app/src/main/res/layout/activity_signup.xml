@@ -12,19 +12,35 @@
 
     <EditText
         android:id="@+id/sign_id"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="ID"
-        android:layout_margin="8dp"
+        android:layout_marginLeft="8dp"
         android:background="@null"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="* 이메일 형식으로 입력"
+        android:textSize="10dp"
+        android:textColor="#000000" />
 
     <EditText
         android:id="@+id/sign_password"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
-        android:layout_margin="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         android:background="@null"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="8자리 이상 입력* "
+        android:textSize="10dp"
+        android:textColor="#000000" />
+
 
     <Button
         android:id="@+id/sign_success"

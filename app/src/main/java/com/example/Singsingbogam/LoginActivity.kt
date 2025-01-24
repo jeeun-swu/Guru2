@@ -2,6 +2,7 @@ package com.example.Singsingbogam
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -24,46 +25,55 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         findViewById<View>(R.id.login_signup).setOnClickListener(this)
         findViewById<View>(R.id.login_success).setOnClickListener(this)
-    }
 
-    /*
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser user = mAuth.getCurrentUser();
-        if(user!= null){
-            //Toast.makeText(this, "자동 로그인 : " + user.getUid(), Toast.LENGTH_SHORT).show();;
-            startActivity(new Intent(this, MainActivity.class));
+        // 엔터키를 눌렀을 때 로그인 실행
+        mPassword?.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                performLogin()
+                true
+            } else {
+                false
+            }
         }
     }
-*/
+
+    // 자동 로그인
+    override fun onStart() {
+        super.onStart()
+        val user = mAuth.currentUser
+        if (user != null) {
+            startActivity(Intent(this, RegActivity::class.java))
+        }
+    }
+
     override fun onClick(v: View) {
         val id = v.id
         if (id == R.id.login_signup) {
             startActivity(Intent(this, SignupActivity::class.java))
         } else if (id == R.id.login_success) {
-            mAuth.signInWithEmailAndPassword(mId!!.text.toString(), mPassword!!.text.toString())
-                .addOnCompleteListener(
-                    this
-                ) { task ->
+            performLogin()
+        }
+    }
+
+    // 로그인 로직
+    private fun performLogin() {
+        val idText = mId?.text.toString()
+        val passwordText = mPassword?.text.toString()
+
+        if (idText.isNotEmpty() && passwordText.isNotEmpty()) {
+            mAuth.signInWithEmailAndPassword(idText, passwordText)
+                .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         val user = mAuth.currentUser
                         if (user != null) {
-                            //Toast.makeText(LoginActivity.this, "로그인 성공" + user.getUid(),Toast.LENGTH_SHORT).show();
-                            startActivity(
-                                Intent(
-                                    this@LoginActivity,
-                                    RegActivity::class.java
-                                )
-                            )
+                            startActivity(Intent(this@LoginActivity, RegActivity::class.java))
                         }
                     } else {
-                        Toast.makeText(
-                            this@LoginActivity, "Login Error",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(this@LoginActivity, "Login Error", Toast.LENGTH_SHORT).show()
                     }
                 }
+        } else {
+            Toast.makeText(this@LoginActivity, "Please fill in both fields", Toast.LENGTH_SHORT).show()
         }
     }
 }
