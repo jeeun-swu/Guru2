@@ -26,17 +26,16 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<View>(R.id.login_success).setOnClickListener(this)
     }
 
-    /*
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser user = mAuth.getCurrentUser();
-        if(user!= null){
-            //Toast.makeText(this, "자동 로그인 : " + user.getUid(), Toast.LENGTH_SHORT).show();;
-            startActivity(new Intent(this, MainActivity.class));
+    // 자동 로그인
+    override fun onStart() {
+        super.onStart()
+        val user = mAuth.currentUser
+        if (user != null) {
+            // Toast.makeText(this, "자동 로그인 : ${user.uid}", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, RegActivity::class.java))
         }
     }
-*/
+
     override fun onClick(v: View) {
         val id = v.id
         if (id == R.id.login_signup) {
