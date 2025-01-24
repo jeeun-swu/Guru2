@@ -1,5 +1,4 @@
 package com.example.Singsingbogam
-
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.database.Cursor
@@ -16,7 +15,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class IngredientList : AppCompatActivity() {
-
     lateinit var dbManager : DBManager
     lateinit var sqllitedb : SQLiteDatabase
     lateinit var layout : LinearLayout
@@ -31,51 +29,39 @@ class IngredientList : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         dbManager = DBManager(this, "fridgeDB", null, 1)
         sqllitedb = dbManager.readableDatabase
-
         layout = findViewById(R.id.ingredient)
-
         var cursor : Cursor
         cursor = sqllitedb.rawQuery("SELECT * FROM fridgeTBL;", null)
-
         var num : Int = 0
         while(cursor.moveToNext()) {
             var str_name = cursor.getString(cursor.getColumnIndex("fName")).toString()
             var exp_date = cursor.getInt(cursor.getColumnIndex("fDate"))
-
             var layout_item : LinearLayout = LinearLayout(this)
             layout_item.orientation = LinearLayout.VERTICAL
             layout_item.id = num
-
             var tvName : TextView = TextView(this)
             tvName.text = str_name
             tvName.textSize = 30f
             //배경 색 변경 가능
             tvName.setBackgroundColor(Color.LTGRAY)
             layout_item.addView(tvName)
-
             var tvDate : TextView = TextView(this)
             tvDate.text = exp_date.toString() + "\n"
             tvDate.textSize = 20f
             layout_item.addView(tvDate)
-
             layout.addView(layout_item)
             num++;
         }
-
         cursor.close()
         sqllitedb.close()
         dbManager.close()
-
     }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.options_menu, menu)
         return true
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_reg -> {
@@ -96,5 +82,4 @@ class IngredientList : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
 }
