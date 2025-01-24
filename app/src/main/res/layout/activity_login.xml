@@ -12,7 +12,7 @@
 
     <EditText
         android:id="@+id/login_id"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:background="@null"
@@ -20,7 +20,7 @@
 
     <EditText
         android:id="@+id/login_password"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:background="@null"
