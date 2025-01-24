@@ -14,6 +14,8 @@ import models.Post
 import adapters.PostAdapter
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.example.Singsingbogam.R
 import com.google.firebase.auth.FirebaseAuth
 
@@ -46,19 +48,53 @@ class PostViewActivity : AppCompatActivity(), View.OnClickListener {
                     for (snap: DocumentSnapshot in queryDocumentSnapshots.documents) {
                         val shot = snap.data
                         if (shot != null) {
-                            val documentId = shot[FirebaseId.documentId]?.toString().orEmpty()
+                            val documentId = snap.id // Firestore 문서 ID 가져오기
                             val title = shot[FirebaseId.title]?.toString().orEmpty()
                             val contents = shot[FirebaseId.contents]?.toString().orEmpty()
                             val data = Post(documentId, title, contents)
                             mDatas.add(data)
                         }
                     }
-                    mAdapter = PostAdapter(mDatas)
+                    // 삭제 및 수정 이벤트 전달
+                    mAdapter = PostAdapter(mDatas,
+                        onDelete = { documentId -> showDeleteDialog(documentId) },
+                        onEdit = { post -> navigateToEdit(post) })
                     mPostRecyclerView.adapter = mAdapter
+
                 }
             }
     }
+    // 수정 화면으로 이동
+    private fun navigateToEdit(post: Post) {
+        val intent = Intent(this, PostActivity::class.java)
+        intent.putExtra("documentId", post.documentId)
+        intent.putExtra("title", post.title)
+        intent.putExtra("contents", post.contents)
+        startActivity(intent)
+    }
+    // 삭제 다이얼로그
+    private fun showDeleteDialog(documentId: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("게시글 삭제")
+        builder.setMessage("해당 게시글을 삭제하시겠습니까?")
+        builder.setPositiveButton("예") { _, _ ->
+            deletePost(documentId)
+        }
+        builder.setNegativeButton("아니오", null)
+        builder.show()
+    }
 
+    // 게시글 삭제
+    private fun deletePost(documentId: String) {
+        mStore.collection(FirebaseId.post).document(documentId)
+            .delete()
+            .addOnSuccessListener {
+                Toast.makeText(this, "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "삭제 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+            }
+    }
     override fun onClick(v: View) {
         startActivity(Intent(this, PostActivity::class.java))
     }
