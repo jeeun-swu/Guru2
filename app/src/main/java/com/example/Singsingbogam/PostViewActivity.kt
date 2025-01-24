@@ -15,6 +15,7 @@ import adapters.PostAdapter
 import android.view.Menu
 import android.view.MenuItem
 import com.example.Singsingbogam.R
+import com.google.firebase.auth.FirebaseAuth
 
 class PostViewActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -22,6 +23,7 @@ class PostViewActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mAdapter: PostAdapter
     private val mDatas: MutableList<Post> = mutableListOf()
     private lateinit var mPostRecyclerView: RecyclerView
+    private val mAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +87,19 @@ class PostViewActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(Intent(this, PostViewActivity::class.java))
                 return true
             }
+
+            R.id.menu_logout -> {
+                // 로그아웃 처리
+                mAuth.signOut()
+
+                // LoginActivity로 이동
+                val intent = Intent(this, LoginActivity ::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish() // 현재 Activity 종료
+                return true
+            }
+
         }
         return super.onOptionsItemSelected(item)
     }
