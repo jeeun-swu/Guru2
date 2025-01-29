@@ -105,6 +105,10 @@ class PostViewActivity : AppCompatActivity(), View.OnClickListener {
         startActivity(Intent(this, PostActivity::class.java))
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.options_menu, menu)
+        return true
+    }
 
     // 메뉴 항목 클릭 처리
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

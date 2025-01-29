@@ -29,4 +29,3 @@ object ToastActivity {
         toast?.show()
     }
 }
-//
