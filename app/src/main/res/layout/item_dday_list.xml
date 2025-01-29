@@ -12,15 +12,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="16sp"
-        android:textColor="@android:color/black" />
+        android:padding="16dp"
+        android:textColor="@color/green"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <!-- D-day 표시 -->
     <TextView
         android:id="@+id/txtDday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"
-        android:layout_marginStart="10dp"/>
+        android:layout_marginStart="10dp"
+        android:textColor="@color/darkGreen"
+        android:textSize="15sp"
+        android:textStyle="bold" />
 </LinearLayout>
