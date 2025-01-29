@@ -12,10 +12,16 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import models.Post
 import adapters.PostAdapter
+import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import com.example.Singsingbogam.R
 import com.google.firebase.auth.FirebaseAuth
 
@@ -99,14 +105,10 @@ class PostViewActivity : AppCompatActivity(), View.OnClickListener {
         startActivity(Intent(this, PostActivity::class.java))
     }
 
-    // 메뉴 생성
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.options_menu, menu)
-        return true
-    }
 
     // 메뉴 항목 클릭 처리
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
         when (item.itemId) {
             R.id.menu_reg -> {
                 // RegActivity로 이동

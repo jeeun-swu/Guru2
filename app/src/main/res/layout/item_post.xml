@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:textColor="@android:color/holo_green_light"
+            android:textColor="@color/darkGreen"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:text="제목" />
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:textColor="#000"
+            android:textColor="#91B193"
             android:textSize="16sp"
             tools:text="게시글" />
 
@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:backgroundTint="@android:color/holo_green_light"
+                android:backgroundTint="@color/green"
                 android:text="수정"
                 android:textColor="@android:color/white" />
 
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:backgroundTint="@android:color/holo_green_light"
+                android:backgroundTint="@color/green"
                 android:text="삭제"
                 android:textColor="@android:color/white" />
         </LinearLayout>

@@ -11,7 +11,7 @@ class DBManager(
     version: Int
 ) : SQLiteOpenHelper(context, name, factory, version) {
     override fun onCreate(db: SQLiteDatabase?) {
-        db!!.execSQL("CREATE TABLE personnel (name text, gender text, age INTEGER, tel text)")
+        db!!.execSQL("CREATE TABLE fridgeDB (name text, gender text, age INTEGER, tel text)")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {

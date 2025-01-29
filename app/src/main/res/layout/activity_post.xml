@@ -20,8 +20,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Title"
-            android:textColor="@color/black"
+            android:hint="*Title"
+            android:textColor="@color/darkGreen"
+            android:textColorHint="@color/grey"
             android:textSize="20dp"
             android:textStyle="bold"
             tools:ignore="HardCodedText" />
@@ -30,17 +31,18 @@
             android:id="@+id/post_save_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_green_light"
+            android:backgroundTint="@color/green"
             android:text="save" />
     </LinearLayout>
 
 
     <EditText
         android:id="@+id/post_contents_edit"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:hint="Contents"
-        android:textColor="@color/black"
+        android:hint="*Contents"
+        android:textColor="@color/cloudyGreen"
+        android:textColorHint="@color/grey"
         android:textSize="16dp" />
 </LinearLayout>
