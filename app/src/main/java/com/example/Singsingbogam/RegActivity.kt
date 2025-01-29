@@ -96,6 +96,6 @@ class RegActivity : AppCompatActivity() {
     }
     
 }
-//
+
 
 

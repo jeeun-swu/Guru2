@@ -1,5 +1,6 @@
 package com.example.Singsingbogam
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 
 class DdayListAdapter(private val context: Context, private val ddayItems: List<DdayItem>) : BaseAdapter() {
 
@@ -16,6 +18,7 @@ class DdayListAdapter(private val context: Context, private val ddayItems: List<
 
     override fun getItemId(position: Int): Long = position.toLong()
 
+    @SuppressLint("ResourceAsColor")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view: View
         val holder: ViewHolder
@@ -38,10 +41,10 @@ class DdayListAdapter(private val context: Context, private val ddayItems: List<
 
         // 이미 유통기한이 지난 경우(daysLeft < 0) 글자색을 초록색으로 변경
         if (item.daysLeft < 0) {
-            holder.txtDday.setTextColor(Color.GREEN)
+            holder.txtDday.setTextColor( ContextCompat.getColor(context, R.color.red))
         } else {
             // 기본색(검정 등)으로 설정
-            holder.txtDday.setTextColor(Color.BLACK)
+            holder.txtDday.setTextColor( ContextCompat.getColor(context, R.color.cloudyGreen))
         }
 
         return view
