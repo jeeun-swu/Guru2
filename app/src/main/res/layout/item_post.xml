@@ -11,51 +11,67 @@
     app:cardCornerRadius="20dp"
     app:cardElevation="8dp">
 
+    <!-- ✅ 게시글 정보 전체를 감싸는 LinearLayout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- ✅ 게시글 제목 -->
         <TextView
             android:id="@+id/item_post_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:textColor="@android:color/holo_green_light"
+            android:textColor="@color/darkGreen"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:text="제목" />
 
+        <!-- ✅ 작성자 정보 -->
+        <TextView
+            android:id="@+id/item_post_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="#91B193"
+            android:textSize="14sp"
+            tools:text="작성자: 홍길동" />
+
+        <!-- ✅ 본문 일부 (50자까지만 표시) -->
         <TextView
             android:id="@+id/item_post_contents"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:textColor="#000"
+            android:textColor="#91B193"
             android:textSize="16sp"
             tools:text="게시글" />
 
+        <!-- ✅ 수정 / 삭제 버튼 레이아웃 (작성자에게만 보이도록 설정 가능) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="right">
 
+            <!-- ✅ 수정 버튼 -->
             <Button
                 android:id="@+id/item_post_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:backgroundTint="@android:color/holo_green_light"
+                android:backgroundTint="@color/green"
                 android:text="수정"
                 android:textColor="@android:color/white" />
 
+            <!-- ✅ 삭제 버튼 -->
             <Button
                 android:id="@+id/item_post_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:backgroundTint="@android:color/holo_green_light"
+                android:backgroundTint="@color/green"
                 android:text="삭제"
                 android:textColor="@android:color/white" />
         </LinearLayout>

@@ -5,49 +5,74 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_vertical"
     android:fitsSystemWindows="true"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
     tools:context=".SignupActivity">
 
-    <EditText
-        android:id="@+id/sign_id"
+    <!-- 🔥 사용자 ID (이메일) 입력 -->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="ID"
-        android:layout_marginLeft="8dp"
-        android:background="@null"/>
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/sign_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:background="@null"
+            android:hint="ID"
+            android:textColorHint="@color/green"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- 🔥 이메일 형식 안내 -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:text="* 이메일 형식으로 입력"
-        android:textSize="10dp"
-        android:textColor="#000000" />
+        android:text="*이메일 형식으로 입력 (singsing@naver.com)"
+        android:textColor="@color/grey"
+        android:textSize="10dp" />
 
-    <EditText
-        android:id="@+id/sign_password"
+    <!-- 🔥 비밀번호 입력 -->
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@null"/>
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox" >
+        <EditText
+            android:id="@+id/sign_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@null"
+            android:hint="Password"
+            android:textColorHint="@color/green"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!-- 🔥 비밀번호 조건 안내 -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:text="8자리 이상 입력* "
-        android:textSize="10dp"
-        android:textColor="#000000" />
+        android:text="*8자리 이상 입력"
+        android:textColor="@color/grey"
+        android:textSize="10dp" />
 
-
+    <!-- 🔥 회원가입 버튼 -->
     <Button
         android:id="@+id/sign_success"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign Up"
+        android:layout_gravity="end"
         android:layout_marginEnd="8dp"
-        android:layout_gravity="end" />
+        android:backgroundTint="@color/green"
+        android:text="Sign Up" />
 
 </LinearLayout>

@@ -5,15 +5,11 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.os.Build
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import java.text.SimpleDateFormat
@@ -21,17 +17,24 @@ import java.util.*
 import android.app.PendingIntent
 import android.app.TaskStackBuilder
 import android.content.pm.PackageManager
+import android.view.Menu
+import android.view.MenuItem
+import androidx.core.app.ActivityCompat
 import com.google.firebase.auth.FirebaseAuth
 
 @Suppress("NAME_SHADOWING")
 class DdayListActivity : AppCompatActivity() {
 
-    private lateinit var dbManager: DBManager
-    private lateinit var sqllitedb: SQLiteDatabase
-
     private lateinit var listView: ListView
+    lateinit var dbManager: DBManager
+    private lateinit var sqlDB: SQLiteDatabase
     private lateinit var adapter: DdayListAdapter
     private val mAuth = FirebaseAuth.getInstance()
+
+    // "이미 알림을 보냈는지"를 저장하는 플래그 (앱 실행 중 재료 디데이 메뉴로 들어간 최초 1회만 알림)
+    companion object {
+        var alreadyNotifiedOnce = false
+    }
 
     // 알림 채널 ID
     private val CHANNEL_ID = "fridge_expiration_channel"
@@ -40,67 +43,40 @@ class DdayListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dday_list)
 
-        // (1) 안드로이드 13 알림 권한 요청
-        requestNotificationPermissionIfNeeded()
-
         listView = findViewById(R.id.ddayListView)
 
-        // (2) DBManager로 DB 열기
+        // DB Helper 불러오기
         dbManager = DBManager(this, "fridgeDB", null, 1)
-        sqllitedb = dbManager.readableDatabase
 
-        // (3) DB에서 데이터 로드 + D-Day 계산
+        // DB에서 데이터 가져오기
         val itemList = loadDataFromDB()
-        val sortedList = itemList.sortedBy { it.daysLeft }
 
-        // (4) 리스트뷰 어댑터
+        // D-day 계산 및 정렬 (남은 일수 오름차순)
+        val sortedList = itemList.sortedWith(compareBy { it.daysLeft })
+
+        // 어댑터 세팅
         adapter = DdayListAdapter(this, sortedList)
         listView.adapter = adapter
 
-        // (5) 알림 채널 생성
+        // 알림 채널 생성 (오레오 이상)
         createNotificationChannel()
 
-        // (6) 유통기한 1일 남은 식재료 알림
+        // 유통기한이 1일 남은 식재료가 있다면 알림 띄우기 (단, 처음 1회만)
         checkAndNotify(sortedList)
     }
 
-    /**
-     * 안드로이드 13(API 33) 이상에서 알림 권한 요청
-     */
-    private fun requestNotificationPermissionIfNeeded() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 9999)
-            }
-        }
-    }
-
-    // (선택) 권한 요청 결과 확인
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 9999) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // 알림 권한 승인됨
-            } else {
-                // 거부됨
-            }
-        }
-    }
-
-    /**
-     * DB에서 fridgeTBL(fName, fDate) 읽어서 D-Day 계산
-     * - 날짜를 자정(0시)으로 통일
-     * - 단순히 (expCal - todayCal)/24h 로 'floor' (소수점 버림) 계산
-     */
+    //DB에서 fridgeTBL(fName, fDate) 읽어서 실제 일(day) 차이로 D-Day 계산
     private fun loadDataFromDB(): List<DdayItem> {
         val dataList = mutableListOf<DdayItem>()
+        sqlDB = dbManager.readableDatabase
 
-        val cursor: Cursor = sqllitedb.rawQuery("SELECT * FROM fridgeTBL;", null)
+        // SELECT * FROM fridgeTBL
+        val cursor = sqlDB.rawQuery("SELECT * FROM fridgeTBL;", null)
 
-        // 날짜 포맷 (yyyyMMdd)
+        // 날짜 포맷 (예: "20250306")
         val sdf = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
 
-        // 오늘(자정)
+        // 오늘 날짜를 자정(0시)으로 맞춘 Calendar
         val todayCal = Calendar.getInstance().apply {
             time = Date()
             set(Calendar.HOUR_OF_DAY, 0)
@@ -110,16 +86,15 @@ class DdayListActivity : AppCompatActivity() {
         }
 
         while (cursor.moveToNext()) {
-            val nameCol = cursor.getColumnIndex("fName")
-            val dateCol = cursor.getColumnIndex("fDate")
-            if (nameCol == -1 || dateCol == -1) continue
+            // cursor에서 fName, fDate(YYYYMMDD 형태 int) 가져오기
+            val name = cursor.getString(0)
+            val dateInt = cursor.getInt(1)
 
-            val name = cursor.getString(nameCol)
-            val expDateInt = cursor.getInt(dateCol) // YYYYMMDD
-            val expDateStr = expDateInt.toString()
+            // fDate(예: 20250306)를 문자열로 바꿔 파싱
+            val dateStr = dateInt.toString()
+            val parsedDate = sdf.parse(dateStr) ?: continue
 
-            // 유통기한 날짜 Calendar(자정)
-            val parsedDate = sdf.parse(expDateStr) ?: continue
+            // 유통기한 날짜를 자정으로 맞춘 Calendar
             val expCal = Calendar.getInstance().apply {
                 time = parsedDate
                 set(Calendar.HOUR_OF_DAY, 0)
@@ -128,29 +103,27 @@ class DdayListActivity : AppCompatActivity() {
                 set(Calendar.MILLISECOND, 0)
             }
 
-            // 일수 차이 (floor)
+            // (유통기한 - 오늘) / (24*60*60*1000) → 일(day) 단위
             val diffMillis = expCal.timeInMillis - todayCal.timeInMillis
             val daysLeft = (diffMillis / (24L * 60 * 60 * 1000)).toInt()
-            // 2025-01-24(오늘) vs 2025-01-23 => daysLeft = -1 => D+1
-            // 2025-01-24(오늘) vs 2025-01-24 => daysLeft = 0  => D-Day
-            // 2025-01-24(오늘) vs 2025-01-25 => daysLeft = 1  => D-1
 
-            // D-Day 문자열
+            // D-day 문자열 구성
             val ddayString = when {
                 daysLeft > 0 -> "D-$daysLeft"
                 daysLeft == 0 -> "D-Day"
-                else -> "D+${-daysLeft}" // 과거
+                else -> "D+${-daysLeft}" // 이미 지남
             }
 
-            dataList.add(DdayItem(name, expDateInt, daysLeft, ddayString))
+            dataList.add(DdayItem(name, dateInt, daysLeft, ddayString))
         }
+
         cursor.close()
+        sqlDB.close()
+
         return dataList
     }
 
-    /**
-     * 알림 채널 생성 (오레오 이상)
-     */
+    // 알림 채널 생성
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
@@ -160,21 +133,29 @@ class DdayListActivity : AppCompatActivity() {
             ).apply {
                 description = "유통기한 임박 재료 알림 채널입니다."
             }
-
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
     }
 
     /**
-     * 유통기한 1일 남은 식재료가 있다면 알림 표시
-     * ex) "{사과}의 유통기한이 하루 남았습니다!"
+     * 유통기한이 1일 남은 식재료 알림 (처음 1회만)
+     * - 여러 개면: "(첫 재료) 외 n개의 유통기한이 하루 남았습니다!"
+     * - 하나면: "(재료명)의 유통기한이 하루 남았습니다!"
      */
     private fun checkAndNotify(items: List<DdayItem>) {
+        if (alreadyNotifiedOnce) return
+
         val almostExpiredItems = items.filter { it.daysLeft == 1 }
         if (almostExpiredItems.isNotEmpty()) {
-            val firstItemName = almostExpiredItems[0].name
-            val contentText = "${firstItemName}의 유통기한이 하루 남았습니다!"
+            val count = almostExpiredItems.size
+            val firstName = almostExpiredItems[0].name
+
+            val contentText = if (count == 1) {
+                "$firstName 의 유통기한이 하루 남았습니다!"
+            } else {
+                "$firstName 외 ${count - 1}개의 유통기한이 하루 남았습니다!"
+            }
 
             val builder = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(android.R.drawable.ic_dialog_alert)
@@ -183,7 +164,7 @@ class DdayListActivity : AppCompatActivity() {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
 
-            // 알림 클릭 시 DdayListActivity로 이동
+            // 알림 클릭 시 DdayListActivity 열기
             val intent = Intent(this, DdayListActivity::class.java)
             val pendingIntent = TaskStackBuilder.create(this).run {
                 addNextIntentWithParentStack(intent)
@@ -191,8 +172,8 @@ class DdayListActivity : AppCompatActivity() {
             }
             builder.setContentIntent(pendingIntent)
 
+            // 알림 권한 체크 & 발행
             with(NotificationManagerCompat.from(this)) {
-                // 안드로이드 13 이상에서 권한 거부 시 알림 X
                 if (ActivityCompat.checkSelfPermission(
                         this@DdayListActivity,
                         Manifest.permission.POST_NOTIFICATIONS
@@ -202,12 +183,12 @@ class DdayListActivity : AppCompatActivity() {
                 }
                 notify(1001, builder.build())
             }
+            // 이후 알림 안 띄우도록 플래그 세팅
+            alreadyNotifiedOnce = true
         }
     }
 
-    /**
-     * 옵션 메뉴
-     */
+    // 메뉴 생성
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.options_menu, menu)
         return true
@@ -228,34 +209,24 @@ class DdayListActivity : AppCompatActivity() {
                 return true
             }
             R.id.menu_logout -> {
-                // 로그아웃 처리
+                // 로그아웃
                 mAuth.signOut()
-
                 // LoginActivity로 이동
-                val intent = Intent(this, LoginActivity ::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
-                finish() // 현재 Activity 종료
+                finish()
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
-
-    /**
-     * 액티비티 종료 시 DB 닫기
-     */
-    override fun onDestroy() {
-        super.onDestroy()
-        sqllitedb.close()
-        dbManager.close()
-    }
 }
 
 // D-day 표시용 데이터 클래스
 data class DdayItem(
-    val name: String,     // 재료명
-    val dateInt: Int,     // 유통기한(YYYYMMDD)
-    val daysLeft: Int,    // 남은 일수(정수)
+    val name: String,    // 재료명
+    val dateInt: Int,    // YYYYMMDD
+    val daysLeft: Int,   // 남은 일수
     val ddayString: String
 )

@@ -9,12 +9,14 @@
     android:fitsSystemWindows="true"
     tools:context=".PostViewActivity">
 
+    <!-- 🔥 게시글 목록을 보여주는 RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/main_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+    <!-- 🔥 게시글 작성 버튼 (FloatingActionButton) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/main_post_edit"
         android:layout_width="wrap_content"

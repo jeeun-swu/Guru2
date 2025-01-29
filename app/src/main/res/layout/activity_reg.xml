@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context=".RegActivity">
 
     <LinearLayout
@@ -21,13 +21,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="식재료 명 : "
-            android:textSize="20dp" />
+            android:textColor="@color/green"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:hint="*apple"
+            android:textColorHint="@color/grey" />
 
     </LinearLayout>
 
@@ -42,36 +46,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="유통기한 : "
-            android:textSize="20dp" />
+            android:textColor="@color/green"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edtDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="YYYYMMDD"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:hint="*YYYYMMDD"
+            android:textColorHint="@color/grey" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="393dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:gravity="center"
+        android:gravity="end"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="8dp"
+            android:backgroundTint="@color/green"
             android:text="등록" />
 
         <Button
             android:id="@+id/btnDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="8dp"
+            android:backgroundTint="@color/green"
             android:text="삭제" />
 
     </LinearLayout>

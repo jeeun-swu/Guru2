@@ -11,7 +11,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.Singsingbogam.R
 import com.google.firebase.auth.FirebaseAuth
 
 class RegActivity : AppCompatActivity() {
@@ -21,8 +20,8 @@ class RegActivity : AppCompatActivity() {
     lateinit var btnRegister: Button
     lateinit var btnDelete: Button
 
-    lateinit var myHelper: myDBHelper
-    lateinit var sqlDB: SQLiteDatabase
+    lateinit var dbManager: DBManager
+    lateinit var sqllitedb: SQLiteDatabase
     private val mAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,38 +34,33 @@ class RegActivity : AppCompatActivity() {
         btnRegister = findViewById(R.id.btnRegister)
         btnDelete = findViewById(R.id.btnDelete)
 
-        myHelper = myDBHelper(this)
+        //fridgeDB라는 이름의 Database 생성
+        dbManager = DBManager(this, "fridgeDB", null, 1)
 
+        //등록 버튼 클릭 시 테이블에 이름과 유통기한 저장
         btnRegister.setOnClickListener {
-            sqlDB = myHelper.writableDatabase
-            sqlDB.execSQL(
+            sqllitedb = dbManager.writableDatabase
+            sqllitedb.execSQL(
                 "INSERT INTO fridgeTBL VALUES ( '" + edtName.text.toString() + "' , "
-                        + edtDate.text.toString() + ");"
-            )
-            sqlDB.close()
-            Toast.makeText(applicationContext, "등록됨", Toast.LENGTH_SHORT).show()
+                        + edtDate.text.toString() + ");")
+            sqllitedb.close()
+
+            //토스트 메시지로 등록사실을 알림
+            ToastActivity.showToast(this, "등록됨")
         }
 
+        //삭제 버튼 클릭 시 테이블에서 이름을 찾아 삭제
         btnDelete.setOnClickListener {
-            sqlDB = myHelper.writableDatabase
-            sqlDB.execSQL("DELETE FROM fridgeTBL WHERE fName = '" + edtName.text.toString() + "';")
-            sqlDB.close()
+            sqllitedb = dbManager.writableDatabase
+            sqllitedb.execSQL("DELETE FROM fridgeTBL WHERE fName = '" + edtName.text.toString() + "';")
+            sqllitedb.close()
 
-            Toast.makeText(applicationContext, "삭제됨", Toast.LENGTH_SHORT).show()
+            ToastActivity.showToast(this, "삭제됨")
         }
 
     }
 
-    class myDBHelper(context: Context) : SQLiteOpenHelper(context, "fridgeDB", null, 1) {
-        override fun onCreate(db: SQLiteDatabase?) {
-            db!!.execSQL("CREATE TABLE fridgeTBL (fName CHAR(20) PRIMARY KEY, fDate Integer);")
-        }
 
-        override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-            db!!.execSQL("DROP TABLE IF EXISTS fridgeTBL")
-            onCreate(db)
-        }
-    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.options_menu, menu)
         return true
@@ -74,16 +68,15 @@ class RegActivity : AppCompatActivity() {
     // 메뉴 항목 클릭 처리
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_reg -> {
+            R.id.menu_reg -> {      //등록 및 삭제 화면으로 이동
                 startActivity(Intent(this, RegActivity::class.java))
                 return true
             }
-            R.id.menu_dday -> {
-                // ★ 수정 포인트 ★
+            R.id.menu_dday -> {     //디데이 목록 화면으로 이동
                 startActivity(Intent(this, DdayListActivity::class.java))
                 return true
             }
-            R.id.menu_community -> {
+            R.id.menu_community -> {    //커뮤니티 화면으로 이동
                 startActivity(Intent(this, PostViewActivity::class.java))
                 return true
             }
@@ -102,8 +95,6 @@ class RegActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-
 }
-
 
 
