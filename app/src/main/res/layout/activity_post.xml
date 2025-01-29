@@ -41,7 +41,7 @@
     <!-- 🔥 게시글 내용 입력 필드 -->
     <EditText
         android:id="@+id/post_contents_edit"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
         android:hint="*Contents"
