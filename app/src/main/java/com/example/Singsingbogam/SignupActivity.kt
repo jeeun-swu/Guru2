@@ -61,10 +61,7 @@ class SignupActivity : AppCompatActivity(), View.OnClickListener {
                                             }
                                         });*/
                 } else {
-                    Toast.makeText(
-                        this@SignupActivity, "SignUp Error",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    ToastActivity.showToast(this, "SignUp Error")
                 }
             }
     }

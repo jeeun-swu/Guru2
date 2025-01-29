@@ -69,11 +69,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                             startActivity(Intent(this@LoginActivity, RegActivity::class.java))
                         }
                     } else {
-                        Toast.makeText(this@LoginActivity, "Login Error", Toast.LENGTH_SHORT).show()
+                        ToastActivity.showToast(this, "Login Error")
+
                     }
                 }
         } else {
-            Toast.makeText(this@LoginActivity, "Please fill in both fields", Toast.LENGTH_SHORT).show()
+            ToastActivity.showToast(this, "Please Fill in boteh fields")
         }
     }
 }

@@ -43,11 +43,11 @@ class PostActivity : AppCompatActivity(), View.OnClickListener {
                 mStore.collection(FirebaseId.post).document(documentId)
                     .update(data)
                     .addOnSuccessListener {
-                        Toast.makeText(this, "게시글이 수정되었습니다.", Toast.LENGTH_SHORT).show()
+                        ToastActivity.showToast(this, "게시글이 수정되었습니다.")
                         finish()
                     }
                     .addOnFailureListener {
-                        Toast.makeText(this, "수정 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                        ToastActivity.showToast(this, "수정 중 오류가 발생했습니다.")
                     }
             }
         }

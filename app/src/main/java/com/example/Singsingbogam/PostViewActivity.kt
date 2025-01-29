@@ -89,10 +89,10 @@ class PostViewActivity : AppCompatActivity(), View.OnClickListener {
         mStore.collection(FirebaseId.post).document(documentId)
             .delete()
             .addOnSuccessListener {
-                Toast.makeText(this, "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                ToastActivity.showToast(this, "게시글이 삭제되었습니다.")
             }
             .addOnFailureListener {
-                Toast.makeText(this, "삭제 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                ToastActivity.showToast(this, "삭제 중 오류가 발생했습니다.")
             }
     }
     override fun onClick(v: View) {
