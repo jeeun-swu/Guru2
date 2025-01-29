@@ -26,7 +26,7 @@ import com.google.firebase.auth.FirebaseAuth
 class DdayListActivity : AppCompatActivity() {
 
     private lateinit var listView: ListView
-    private lateinit var myHelper: RegActivity.myDBHelper
+    private lateinit var dbManager: DBManager
     private lateinit var sqlDB: SQLiteDatabase
     private lateinit var adapter: DdayListAdapter
     private val mAuth = FirebaseAuth.getInstance()
@@ -46,7 +46,7 @@ class DdayListActivity : AppCompatActivity() {
         listView = findViewById(R.id.ddayListView)
 
         // DB Helper 불러오기
-        myHelper = RegActivity.myDBHelper(this)
+        dbManager = DBManager(this, "fridgeDB", null, 1)
 
         // DB에서 데이터 가져오기
         val itemList = loadDataFromDB()
@@ -68,7 +68,7 @@ class DdayListActivity : AppCompatActivity() {
     //DB에서 fridgeTBL(fName, fDate) 읽어서 실제 일(day) 차이로 D-Day 계산
     private fun loadDataFromDB(): List<DdayItem> {
         val dataList = mutableListOf<DdayItem>()
-        sqlDB = myHelper.readableDatabase
+        sqlDB = dbManager.readableDatabase
 
         // SELECT * FROM fridgeTBL
         val cursor = sqlDB.rawQuery("SELECT * FROM fridgeTBL;", null)

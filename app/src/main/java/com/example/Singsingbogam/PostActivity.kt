@@ -64,5 +64,6 @@ class PostActivity : AppCompatActivity(), View.OnClickListener {
             mStore.collection(FirebaseId.post).document(postId)[data] = SetOptions.merge()
             finish()
         }
+        //
     }
 }
